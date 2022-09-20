@@ -243,7 +243,7 @@ deprecated class PrintASTNode = PrintAstNode;
 /**
  * Class that restricts the elements that we compute `qlClass` for.
  */
-private class PrintableElement extends Element {
+class PrintableElement extends Element {
   PrintableElement() {
     exists(TAstNode(this))
     or
@@ -259,7 +259,7 @@ private class PrintableElement extends Element {
 /**
  * Retrieves the canonical QL class(es) for entity `el`
  */
-private string qlClass(PrintableElement el) {
+string qlClass(PrintableElement el) {
   result = "[" + concat(el.getAPrimaryQlClass0(), ",") + "] "
   // Alternative implementation -- do not delete. It is useful for QL class discovery.
   //result = "["+ concat(el.getAQlClass(), ",") + "] "
@@ -473,7 +473,7 @@ class ParameterNode extends AstNode {
 
   final override string getChildAccessorPredicateInternal(int childIndex) { none() }
 
-  final override string getProperty(string key) {
+  override string getProperty(string key) {
     result = super.getProperty(key)
     or
     key = "Type" and
