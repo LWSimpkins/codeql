@@ -270,8 +270,8 @@ class PrintableElement extends Element {
  * Retrieves the canonical QL class(es) for entity `el`
  */
 string qlClass(PrintableElement el) {
-  // ast-experiment changes (removed space at the end)
-  result = "[" + concat(el.getAPrimaryQlClass0(), ",") + "]"
+  // ast-experiment changes (removed space at the end), and surrounding brackets
+  result = concat(el.getAPrimaryQlClass0(), ",")
   // Alternative implementation -- do not delete. It is useful for QL class discovery.
   //result = "["+ concat(el.getAQlClass(), ",") + "]"
 }
@@ -282,7 +282,8 @@ string qlClass(PrintableElement el) {
 abstract class BaseAstNode extends PrintAstNode {
   Locatable ast;
 
-  override string toString() { result = qlClass(ast) + ast.toString() }
+  // ast-experiment changes (added brackets around qlClass given brackets are removed from qlClass predicate)
+  override string toString() { result = "[" + qlClass(ast) + "]" + ast.toString() }
 
   final override Location getLocation() { result = getRepresentativeLocation(ast) }
 
