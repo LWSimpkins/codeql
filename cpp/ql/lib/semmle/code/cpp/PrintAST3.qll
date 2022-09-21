@@ -9,6 +9,12 @@
 import cpp
 import semmle.code.cpp.PrintAST
 
+// NOTE: need to keep semmle.label as-is since it's used in the edges predicate to get children? The value is toString(), so need to leave those as-is too?
+
+// However, we can change Value/Type/ValueCategory and add additional key-value pairs
+
+// May want to override BaseAstNode to add key-value pairs for location info, which is not easy to override like below. 
+
 /**
  * A node representing an `Expr`.
  */
@@ -16,26 +22,23 @@ class ExprNode3 extends ExprNode, AstNode {
   override string getProperty(string key) {
     result = AstNode.super.getProperty(key)
     or
-    key = "ValuePrimaryClass" and
-    result = primaryQlClass(expr)
-    // or
-    // key = "ValueClass" and
-    // result = aQlClass(expr)
-    or
     key = "Value" and
     result = getValue()
-    or
-    key = "TypePrimaryClass" and
-    result = primaryQlClass(expr.getType())
     // or
-    // key = "TypeyClass" and
-    // result = aQlClass(expr.getType())
+    // key = "Value_Class" and
+    // result = aQlClass(expr)
+    // or
+    // key = "Value_Type" and
+    // result = primaryQlClass(expr)
     or
     key = "Type" and
     result = expr.getType().toString()
     // or
-    // key = "ValueCategory" and
-    // result = expr.getValueCategoryString()
+    // key = "TypeClass" and
+    // result = aQlClass(expr.getType())
+    or
+    key = "Element_Type" and
+    result = primaryQlClass(expr.getType())
   }
 
   /**
@@ -88,11 +91,11 @@ class DeclarationEntryNode3 extends DeclarationEntryNode, BaseAstNode {
   override string getProperty(string key) {
     result = BaseAstNode.super.getProperty(key)
     or
-    key = "TypeClass" and
-    result = qlClass(ast.getType())
-    or
     key = "Type" and
     result = ast.getType().toString()
+    or
+    key = "Element_Type" and
+    result = primaryQlClass(ast.getType())
   }
 }
 
@@ -103,11 +106,11 @@ class ParameterNode3 extends ParameterNode {
   override string getProperty(string key) {
     result = super.getProperty(key)
     or
-    key = "TypeClass" and
-    result = qlClass(param.getType())
-    or
     key = "Type" and
     result = param.getType().toString()
+    or
+    key = "Element_Type" and
+    result = primaryQlClass(param.getType())
   }
 }
 
