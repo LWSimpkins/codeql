@@ -623,7 +623,9 @@ class FunctionNode extends AstNode {
 
   FunctionNode() { func = ast }
 
-  override string toString() { result = qlClass(func) + getIdentityString(func) }
+  // ast-experiment changes (added brackets around qlClass given brackets are removed from qlClass predicate)
+  override string toString() { result = "[" + qlClass(func) + "]" + getIdentityString(func) }
+
 
   override PrintAstNode getChildInternal(int childIndex) {
     childIndex = 0 and
