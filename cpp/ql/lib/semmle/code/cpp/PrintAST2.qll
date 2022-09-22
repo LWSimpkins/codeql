@@ -559,6 +559,13 @@ class ParametersNode extends PrintAstNode, TParametersNode {
    * Gets the `Function` for which this node represents the parameters.
    */
   final Function getFunction() { result = func }
+
+  // ast-experiment changes (override getProperty)
+  override string getProperty(string key) {
+    result = super.getProperty(key)
+    or
+    key = "Term" and result = "Params_Placeholder"
+  }
 }
 
 /**
@@ -586,6 +593,13 @@ class ConstructorInitializersNode extends PrintAstNode, TConstructorInitializers
    * Gets the `Constructor` for which this node represents the initializer list.
    */
   final Constructor getConstructor() { result = ctor }
+
+    // ast-experiment changes (override getProperty)
+    override string getProperty(string key) {
+      result = super.getProperty(key)
+      or
+      key = "Term" and result = "Initializations_Placeholder"
+    }
 }
 
 /**
@@ -613,6 +627,13 @@ class DestructorDestructionsNode extends PrintAstNode, TDestructorDestructionsNo
    * Gets the `Destructor` for which this node represents the destruction list.
    */
   final Destructor getDestructor() { result = dtor }
+
+  // ast-experiment changes (override getProperty)
+  override string getProperty(string key) {
+    result = super.getProperty(key)
+    or
+    key = "Term" and result = "Destructions_Placeholder"
+  }
 }
 
 /**
@@ -678,6 +699,8 @@ class FunctionNode extends AstNode {
     // key = "Qualified_Name" and result = func.getQualifiedName()  
     or
     key = "Type" and result = func.getType().toString()
+    or
+    key = "Element_Type" and result = qlClass(func.getType())
   }
 
   /**
