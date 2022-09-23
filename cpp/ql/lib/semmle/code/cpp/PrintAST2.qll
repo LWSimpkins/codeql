@@ -333,6 +333,10 @@ class ExprNode extends AstNode {
     //TODO may need to add this for other subclasses of expr
     key = "Name" and result = expr.(VariableAccess).getTarget().getName()
     or
+    key = "Name" and result = expr.(FunctionCall).getTarget().getName()
+    or
+    key = "Qualified_Name" and result = expr.(FunctionCall).getTarget().getQualifiedName()
+    or
     key = "Value" and result = getValue()
     or
     key = "Type" and result = expr.getType().toString()
@@ -505,6 +509,8 @@ class ParameterNode extends AstNode {
     key = "Type" and result = param.getType().toString()
     or
     key = "Element_Type" and result = qlClass(param.getType())
+    or
+    key = "Name" and result = param.getName()
   }
 }
 
@@ -690,13 +696,7 @@ class FunctionNode extends AstNode {
     or
     key = "Name" and result = func.getName()
     or
-    // TODO may need toString() instead of getName() 
-    key = "Namespace" and
-    func.getNamespace().getName() != "" and
-    result = func.getNamespace().getName()
-    // expensive query, though from the logs it's already being called
-    // or
-    // key = "Qualified_Name" and result = func.getQualifiedName()  
+    key = "Qualified_Name" and result = func.getQualifiedName()  
     or
     key = "Type" and result = func.getType().toString()
     or
